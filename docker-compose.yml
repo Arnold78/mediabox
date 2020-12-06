@@ -131,7 +131,7 @@ services:
     container_name: jackett
     networks:
       default:
-        ipv4_address: 172.20.1.5
+        ipv4_address: 172.17.0.5
     ports:
       - 9117:9117
     labels:
@@ -154,7 +154,7 @@ services:
     container_name: nzbhydra2
     networks:
       default:
-        ipv4_address: 172.20.1.6
+        ipv4_address: 172.17.1.6
     ports:
       - 5076:5076
     labels:
@@ -177,7 +177,7 @@ services:
     container_name: sabnzbd
     networks:
       default:
-        ipv4_address: 172.20.1.8
+        ipv4_address: 172.17.0.8
     ports:
       - 9050:8080
       - 9051:9090
@@ -202,7 +202,7 @@ services:
     container_name: portainer
     networks:
       default:
-        ipv4_address: 172.20.2.2
+        ipv4_address: 172.17.0.20
     ports:
       - 9000:9000
       - 8000:8000

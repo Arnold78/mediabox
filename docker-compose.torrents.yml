@@ -6,8 +6,8 @@ services:
     container_name: deluge
     networks:
       default:
-        ipv4_address: 172.20.1.7
-    ports: 
+        ipv4_address: 172.17.0.7
+    ports:
       - 8112:8112
     labels:
       - com.centurylinklabs.watchtower.enable=true

@@ -4,7 +4,7 @@ on:
   push:
     # Publish `master` as Docker `latest` image.
     branches:
-      - master
+      - test
 
     # Run tests for any tags.
     tags:
@@ -22,8 +22,8 @@ jobs:
 
       - name: Main Stack Deployment + VPN Protected Torrenting
         env:
-          PUID: 1000
-          PGID: 1000
+          PUID: 1001
+          PGID: 1001
           DATA: /data
           CONTAINERS: /data/containers
           DOWNLOADS: /data/downloads

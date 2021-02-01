@@ -42,9 +42,9 @@ services:
       - traefik.http.routers.calibreweb.entrypoints=websecured
       - traefik.http.routers.calibreweb.tls.certresolver=myresolver
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
       - DOCKER_MODS=linuxserver/calibre-web:calibre
     volumes:
       - ${CONTAINERS}/calibre-web:/config

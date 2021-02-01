@@ -1,0 +1,110 @@
+
+
+For IPv6: 2606:4700:4700::1111 and 2606:4700:4700::1001
+#####DOCKERMACHINE
+
+base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+  curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+  sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &&
+  chmod +x /usr/local/bin/docker-machine
+
+
+
+base=https://raw.githubusercontent.com/docker/machine/v0.16.0
+for i in docker-machine-prompt.bash docker-machine-wrapper.bash docker-machine.bash
+do
+  sudo wget "$base/contrib/completion/bash/${i}" -P /etc/bash_completion.d
+done
+
+PS1='[\u@\h \W$(__docker_machine_ps1)]\$ '
+
+#### APPS
+
+# jellyfin
+
+### docker pull hotio/jellyfin
+
+JELLYFIN_CONFIG_DIR="/config/app"
+JELLYFIN_DATA_DIR="/config/app/data"
+JELLYFIN_LOG_DIR="/config/app/log"
+JELLYFIN_CACHE_DIR="/config/app/cache"
+
+Hardware support
+
+To make your hardware devices available inside the container use the following argument --device=/dev/dri:/dev/dri for Intel QuickSync and --device=/dev/dvb:/dev/dvb for a tuner. NVIDIA users should go visit the NVIDIA github page for instructions. For Raspberry Pi OpenMAX you'll need to use --device=/dev/vchiq:/dev/vchiq -v /opt/vc/lib:/opt/vc/lib, V4L2 will need --device=/dev/video10:/dev/video10 --device=/dev/video11:/dev/video11 --device=/dev/video12:/dev/video12 and MMAL needs --device=/dev/vcsm:/dev/vcsm or --device=/dev/vc-mem:/dev/vc-mem.
+
+
+
+docker run -it --rm --network container:CONTAINER_NAME nicolaka/netshoot
+
+
+
+CLI:
+
+docker run --rm \
+    --name jellyfin \
+    -p 8096:8096 \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -e UMASK=002 \
+    -e TZ="Etc/UTC" \
+    -e ARGS="" \
+    -e DEBUG="no" \
+    -v /<host_folder_config>:/config \
+    hotio/jellyfin
+
+Compose:
+
+version: "3.7"
+
+services:
+  jellyfin:
+    container_name: jellyfin
+    image: hotio/jellyfin
+    ports:
+      - "8096:8096"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Etc/UTC
+      - ARGS
+      - DEBUG=no
+    volumes:
+      - /<host_folder_config>:/config
+
+#### SABNETZD
+###docker pull hotio/sabnzbd
+CLI:
+
+docker run --rm \
+    --name sabnzbd \
+    -p 8080:8080 \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -e UMASK=002 \
+    -e TZ="Etc/UTC" \
+    -e ARGS="" \
+    -e DEBUG="no" \
+    -v /<host_folder_config>:/config \
+    hotio/sabnzbd
+
+Compose:
+
+version: "3.7"
+
+services:
+  sabnzbd:
+    container_name: sabnzbd
+    image: hotio/sabnzbd
+    ports:
+      - "8080:8080"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Etc/UTC
+      - ARGS
+      - DEBUG=no
+    volumes:
+      - /<host_folder_config>:/config

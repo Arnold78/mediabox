@@ -10,39 +10,6 @@ services:
       - ${HOME}/.docker/config.json:/config.json
     command: --label-enable --cleanup --schedule "0 0 4 * * *"
 
-  plex:
-    image: linuxserver/plex
-    container_name: plex
-    networks:
-      default:
-        ipv4_address: 172.20.1.1
-    ports:
-      - 32400:32400/tcp
-      - 32400:32400/udp
-      - 3005:3005/tcp
-      - 8324:8324/tcp
-      - 32469:32469/tcp
-      - 1900:1900/udp
-      - 32410:32410/udp
-      - 32412:32412/udp
-      - 32413:32413/udp
-      - 32414:32414/udp
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - traefik.enable=true
-      - traefik.http.routers.plex.rule=Host(`plex.${DOMAIN}`)
-      - traefik.http.routers.plex.entrypoints=websecured
-      - traefik.http.services.plex.loadbalancer.server.port=32400
-      - traefik.http.routers.plex.tls.certresolver=myresolver
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - VERSION=docker
-      - ADVERTISE_IP="https://plex.${DOMAIN}:443"
-    volumes:
-      - ${CONTAINERS}/plex/config:/config
-      - ${DATA}:/data
-    restart: unless-stopped
 
   sonarr:
     image: linuxserver/sonarr
@@ -234,29 +201,6 @@ services:
     labels:
       - com.centurylinklabs.watchtower.enable=true
       - traefik.enable=false
-
-  organizr:
-    image: organizr/organizr
-    container_name: organizr
-    networks:
-      default:
-        ipv4_address: 172.20.2.4
-    ports:
-      - 9983:80
-    labels:
-      - com.centurylinklabs.watchtower.enable=true
-      - traefik.enable=true
-      - traefik.http.routers.orzanizr.rule=Host(`organizr.${DOMAIN}`) || Host(`mediabox.${DOMAIN}`)
-      - traefik.http.routers.orzanizr.entrypoints=websecured
-      - traefik.http.routers.orzanizr.tls.certresolver=myresolver
-      - traefik.http.services.organizr.loadbalancer.server.port=80
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
-    volumes:
-      - ${CONTAINERS}/organizr:/config
-    restart: unless-stopped
 
   duplicati:
     image: linuxserver/duplicati
